@@ -66,6 +66,10 @@ PROXY_SCRIPTS=$(cat <<EOF
 	echo "$(cat /etc/init.d/sshtunnel | sed "s/^RSERVER=.*$/RSERVER=$AWS_HOST/")" > /etc/init.d/sshtunnel
 	echo "$(cat /etc/init.d/sshtunnel | sed "s/^RPORT=.*$/RPORT=$AWS_PORT/")" > /etc/init.d/sshtunnel
 	echo "$(cat /etc/init.d/sshtunnel | sed "s/^IDENTITY_FILE=.*$/IDENTITY_FILE=\/opt\/sshtunnel\/$SSHTUNNEL_KEY_NAME/")" > /etc/init.d/sshtunnel
+
+	[ -f ~/.ssh/config ] || touch ~/.ssh/config
+	[ "$(grep 'Host \*' ~/.ssh/config)" == "" ] && (echo 'Host *' >> ~/.ssh/config && echo "StrictHostKeyChecking no" >> ~/.ssh/config)
+
 	/etc/init.d/sshtunnel start
 	/etc/init.d/privoxy restart
 	update-rc.d sshtunnel defaults
