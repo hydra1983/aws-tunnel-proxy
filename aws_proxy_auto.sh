@@ -59,7 +59,7 @@ PROXY_SCRIPTS=$(cat <<EOF
 	apt-get install -y --force-yes privoxy autossh
 	echo "$(cat /etc/privoxy/config | sed -r 's/^(listen\-address.*localhost\:8118)$/#\1/')" > /etc/privoxy/config
 	echo "listen-address 0.0.0.0:8118" >> /etc/privoxy/config
-	echo "forward-socks5 localhost:1080" >> /etc/privoxy/config
+	echo "forward-socks5 / localhost:1080 ." >> /etc/privoxy/config
 
 	wget https://gist.github.com/hydra1983/4077225/raw/d59160dcbd6c490b997b225c36fd1315b4b76e46/sshtunnel -O /etc/init.d/sshtunnel
 	chmod +x /etc/init.d/sshtunnel
